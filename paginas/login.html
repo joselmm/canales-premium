@@ -112,7 +112,7 @@
             if(SSCONN.logRes.length>0){
                 await getSheetData(urlSS,"servers","serversList")
                 container__HTML_Element.load("paginas/player.html");
-                cambiarUrl(SSCONN.serversList[0].url)
+                //cambiarUrl(SSCONN.serversList[0].url)
                 cambiarTituloPestaña(SSCONN.serversList[0].canal)
             }else {
                 setTimeout(()=>{
@@ -125,6 +125,6 @@
             alert("Primero ingresa el celular")
         }
     }
-    function cambiarUrl(paginaEndPoint){window.history.replaceState(null,null, endPoint+"?pagina="+paginaEndPoint);}
+    //function cambiarUrl(paginaEndPoint){window.history.replaceState(null,null, endPoint+"?pagina="+paginaEndPoint);}
     function cambiarTituloPestaña(title){window.document.title = title;}
 </script>

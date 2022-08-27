@@ -1,6 +1,8 @@
 <style>
     
     #header{
+        display:flex;
+        flex-direction: row-reverse!important;
         padding: 15px;
         background-color: orange;
         justify-content: center;
@@ -52,8 +54,31 @@
     }
 	
 	#link-ublock{
-		justify-content:center;
+
+		text-align: center;
 	}
+    #footer{
+        display: flex;
+        justify-content: center;
+    }
+
+    #channel-title{
+        display: inline-block;
+    }
+    #img-logo-box{
+        display: inline-block;
+        text-align: end;
+    }
+    #img-logo{
+        display: inline-block;
+        height:30px;
+        
+    }
+    #title-box{
+        text-align: end;
+        display: inline-block;
+        
+    }
 </style>
 <!-- Fila header (1) -->
 <div class="row col-12" id="header"></div>
@@ -67,7 +92,7 @@
 <div class="col-md-3 col-lg-3" id="sidebar-right"></div>
 <!-- Fila Servers - Player - ChannelsList  ()-->
 
-<div class="col-12" ><a href="#" id="link-ublock" target="_blank" rel="noopener noreferrer">DESCARGA EL BLOQUEADOR DE ANUNCIOS</a></div>
+<div class="col-12" id="footer" ><a href="#" id="link-ublock" target="_blank" rel="noopener noreferrer">DESCARGA EL BLOQUEADOR DE ANUNCIOS</a></div>
 <!-- Fila  (3) -->
 <script>
     //Abstracto
@@ -77,7 +102,7 @@
     var iframePlayer__HTMLElement= document.querySelector("#player");
     // Fila header (1)
         //Poner el titulo en el header
-        cambiarTitulo(firstChannel.canal);
+        cambiarTitulo(`<div id="title-box"><h3 id="channel-title">${firstChannel.canal}</h3></div><div id="img-logo-box"><img id="img-logo" src="${firstChannel.imagen}"></div>`);
     // Fila Servers - Player - ChannelsList  (2)
 
         //Sidebar - Left
@@ -124,6 +149,7 @@
     }
     function cambiarDecanal({target}) {
         var idx = Number(target.id.split("-")[target.id.split("-").length-1])
+        cambiarTituloPestaña(SSCONN.serversList[idx].canal);
         $sideBarLeft__innerHTML.appendChild(revelarServidoresDisponibles(idx))
         sidebarLeft__HTMLElement.innerHTML="";
         sidebarLeft__HTMLElement.append($sideBarLeft__innerHTML)
