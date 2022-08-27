@@ -9,6 +9,7 @@
 <body>
     <iframe src="" frameborder="0" id="iframe-container"></iframe>
     <script>
+        console.log(location.href)
         var urlInsegura =location.href.split("pagina=")[1];
         document.body.style.margin="0"
         var $iframeContainer = document.getElementById("iframe-container");
