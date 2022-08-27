@@ -1,0 +1,222 @@
+<style>
+    
+    #header{
+        padding: 15px;
+        background-color: orange;
+        justify-content: center;
+        
+    }
+    #player-box{
+        background-color: black;
+    }
+    .item-channels-list{
+        background-color: aqua;
+        padding: 8px;
+        margin: 7px 0;
+        cursor: pointer;
+        
+    }
+    .channel-selected{
+        background-color: rgb(243, 129, 36);
+    }
+    .item-channels-list:hover{
+        background-color: rgb(0, 102, 255);
+        padding: 8px;
+        margin: 7px 0;
+        cursor: pointer;
+    }
+   
+    .item-channels-list:hover{
+        background-color: rgb(0, 102, 255);
+        padding: 8px;
+        margin: 7px 0;
+        cursor: pointer;
+    }
+    #channels-list{
+            margin: 0;
+			padding: 0;
+			background: #60a3bc !important;
+            overflow: auto;
+    }
+
+
+    .item-servers-list{
+        background-color: aqua;
+        padding: 8px;
+        margin: 7px 0;
+        cursor: pointer;
+    }
+
+    .server-selected{
+        background-color: rgb(243, 129, 36);
+    }
+</style>
+<!-- Fila header (1) -->
+<div class="row col-12" id="header"></div>
+<!-- Fila Servers - Player - ChannelsList  (2)-->
+<div class="col-md-3 col-lg-3" id="sidebar-left"></div>
+
+<div id="player-box"class="embed-responsive embed-responsive-16by9 col-md-6 col-lg-6">
+    <iframe class="embed-responsive-item col-12" id="player" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="fullscreen"></iframe>
+</div>
+
+<div class="col-md-3 col-lg-3" id="sidebar-right"></div>
+<!-- Fila Servers - Player - ChannelsList  ()-->
+
+<div class="col-12" ><a href="#" target="_blank" rel="noopener noreferrer">DESCARGA EL BLOQUEADOR DE ANUNCIOS</a></div>
+<!-- Fila  (3) -->
+<script>
+    //Abstracto
+    var header__HTMLElement = document.querySelector("#header");
+    var firstChannel= SSCONN.serversList[0];
+    var playerBox__HTMLElement= document.querySelector("#player-box");
+    var iframePlayer__HTMLElement= document.querySelector("#player");
+    // Fila header (1)
+        //Poner el titulo en el header
+        cambiarTitulo(firstChannel.canal);
+    // Fila Servers - Player - ChannelsList  (2)
+
+        //Sidebar - Left
+        var sidebarLeft__HTMLElement = document.querySelector("#sidebar-left");
+        var $sideBarLeft__innerHTML = document.createDocumentFragment();
+        $sideBarLeft__innerHTML.appendChild(revelarServidoresDisponibles(0))
+        sidebarLeft__HTMLElement.append($sideBarLeft__innerHTML)
+        //config para iframeplayer
+        iframePlayer__HTMLElement.src=firstChannel.servers.split("*")[0];
+        iframePlayer__HTMLElement.style.height=(playerBox__HTMLElement.clientWidth/1.77777)+"px"
+        
+        //Sidebar - Rigth
+        var sidebarRight__HTMLElement = document.querySelector("#sidebar-right");
+        var $sideBarRight__innerHTML = document.createDocumentFragment();
+        $sideBarRight__innerHTML.appendChild(crearListaListaDeCanales(SSCONN.serversList))
+        sidebarRight__HTMLElement.append($sideBarRight__innerHTML)
+        
+
+        //estilos de seleccion
+        if(document.querySelector(".server-selected")){document.querySelector(".server-selected").classList.toggle("server-selected")}
+        document.querySelector("#servers-list").children[0].classList.add("server-selected");
+        if(document.querySelector(".channel-selected")){document.querySelector(".channel-selected").classList.toggle("channel-selected")}
+        document.querySelector("#channels-list").children[0].classList.add("channel-selected");
+        
+    //FUNCIONES PRIMARIAS
+    function cambiarTitulo(title){header__HTMLElement.innerHTML=title}
+    function crearListaListaDeCanales(arrayDeObjetos_Canales){
+         channelsList__HTMLElement = document.createElement("ul");
+        channelsList__HTMLElement.id="channels-list";
+        channelsList__HTMLElement.style.height=playerBox__HTMLElement.clientHeight+"px";
+        for (let i = 0; i < arrayDeObjetos_Canales.length; i++) {
+            var item=document.createElement("li");
+            item.classList.add("item-channels-list")        
+            item.id="item-channel-list-"+i;
+            item.innerHTML=arrayDeObjetos_Canales[i].canal;
+            channelsList__HTMLElement.appendChild(item);
+            item.addEventListener("click", cambiarDecanal)
+             
+        }
+        return channelsList__HTMLElement
+    }
+    function cambiarSrcIframe(url){
+        iframePlayer__HTMLElement.src=url;
+    }
+    function cambiarDecanal({target}) {
+        var idx = Number(target.id.split("-")[target.id.split("-").length-1])
+        $sideBarLeft__innerHTML.appendChild(revelarServidoresDisponibles(idx))
+        sidebarLeft__HTMLElement.innerHTML="";
+        sidebarLeft__HTMLElement.append($sideBarLeft__innerHTML)
+        if(document.querySelector(".server-selected")){document.querySelector(".server-selected").classList.toggle("server-selected")}
+        document.querySelector("#servers-list").children[0].classList.add("server-selected");
+        if(document.querySelector(".channel-selected")){document.querySelector(".channel-selected").classList.toggle("channel-selected")}
+        target.classList.add("channel-selected");
+        
+        cambiarTitulo(SSCONN.serversList[idx].canal)
+        
+        if(extraerServers(idx).length>1){
+            cambiarSrcIframe("")
+            cambiarSrcIframe(SSCONN.serversList[idx].servers.split("*")[0])
+        }else{
+            cambiarSrcIframe("")
+            cambiarSrcIframe(SSCONN.serversList[idx].servers)
+        }
+        current_channel_id=idx;
+    }
+    function extraerServers(idx){
+        if(SSCONN.serversList[idx].servers.indexOf("*")>-1){
+            return SSCONN.serversList[idx].servers.split("*");
+        } else {
+            return [SSCONN.serversList[idx].servers];
+        }
+    }
+
+    function revelarServidoresDisponibles(idx){
+
+        var lista__HTMLElement =document.createElement("ul");
+        lista__HTMLElement.id="servers-list";
+        var serversList = extraerServers(idx);
+        for (let i = 0; i < serversList.length; i++) {
+            var item=document.createElement("li");
+            item.classList.add("item-servers-list")        
+            item.id="item-servers-list-"+i;
+            item.innerHTML="Servidor "+(i+1);
+            lista__HTMLElement.appendChild(item);
+            item.addEventListener("click", cambiarDeServidor)
+            
+        }
+        current_channel_id=idx;
+        return lista__HTMLElement;
+    }
+
+    function cambiarDeServidor({target}){
+        
+        if(document.querySelector(".server-selected")){document.querySelector(".server-selected").classList.toggle("server-selected")}
+        target.classList.add("server-selected");
+        var idxSever = Number(target.id.split("-")[target.id.split("-").length-1])
+        var serversList = extraerServers(current_channel_id);
+        cambiarSrcIframe("")
+        cambiarSrcIframe(serversList[idxSever])
+    }
+    
+var linkUblock__HTMLElement =document.querySelector("#link-ublock");
+var $linkUblock;
+    let sBrowser;
+const sUsrAg = navigator.userAgent;
+
+// The order matters here, and this may report false positives for unlisted browsers.
+
+if (sUsrAg.indexOf("Firefox") > -1) {
+  sBrowser = "Mozilla Firefox";
+  $linkUblock = "https://addons.mozilla.org/es/firefox/addon/ublock-origin/"
+  // "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:61.0) Gecko/20100101 Firefox/61.0"
+} else if (sUsrAg.indexOf("SamsungBrowser") > -1) {
+  sBrowser = "Samsung Internet";
+  
+  // "Mozilla/5.0 (Linux; Android 9; SAMSUNG SM-G955F Build/PPR1.180610.011) AppleWebKit/537.36 (KHTML, like Gecko) SamsungBrowser/9.4 Chrome/67.0.3396.87 Mobile Safari/537.36
+} else if (sUsrAg.indexOf("Opera") > -1 || sUsrAg.indexOf("OPR") > -1) {
+  sBrowser = "Opera";
+  $linkUblock="https://addons.opera.com/es/extensions/details/ublock/";
+  // "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.102 Safari/537.36 OPR/57.0.3098.106"
+} else if (sUsrAg.indexOf("Trident") > -1) {
+  sBrowser = "Microsoft Internet Explorer";
+  // "Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; .NET4.0C; .NET4.0E; Zoom 3.6.0; wbx 1.0.0; rv:11.0) like Gecko"
+} else if (sUsrAg.indexOf("Edge") > -1) {
+  sBrowser = "Microsoft Edge (Legacy)";
+  $linkUblock="https://microsoftedge.microsoft.com/addons/detail/ublock-origin/odfafepnkmbhccpbejgmiehpchacaeak";
+  // "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36 Edge/16.16299"
+} else if (sUsrAg.indexOf("Edg") > -1) {
+  sBrowser = "Microsoft Edge (Chromium)";
+  $linkUblock="https://microsoftedge.microsoft.com/addons/detail/ublock-origin/odfafepnkmbhccpbejgmiehpchacaeak";
+  // Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36 Edg/91.0.864.64
+} else if (sUsrAg.indexOf("Chrome") > -1) {
+  sBrowser = "Google Chrome or Chromium";
+  $linkUblock="https://chrome.google.com/webstore/detail/ublock-origin/cjpalhdlnbpafiamejdnhcphjbkeiagm?hl=es"
+  // "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/66.0.3359.181 Chrome/66.0.3359.181 Safari/537.36"
+} else if (sUsrAg.indexOf("Safari") > -1) {
+  sBrowser = "Apple Safari";
+  
+  // "Mozilla/5.0 (iPhone; CPU iPhone OS 11_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/11.0 Mobile/15E148 Safari/604.1 980x1306"
+} else {
+  sBrowser = "unknown";
+}
+
+linkUblock__HTMLElement.href=$linkUblock;
+</script>
+
