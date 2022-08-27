@@ -1,26 +1,19 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pelotero</title>
-</head>
-<body>
-    <iframe src="" frameborder="0" id="iframe-container"></iframe>
-    <script>
-        var urlInsegura =location.href.split("pagina=")[1];
-        urlInsegura = urlInsegura.replaceAll("__","/")
-        urlInsegura = urlInsegura.replaceAll("_",".")
-        urlInsegura ="http://"+ urlInsegura
-        document.body.style.margin="0"
-        var $iframeContainer = document.getElementById("iframe-container");
-        $iframeContainer.style.height=(document.getElementsByTagName("html")[0].clientHeight-4)+"px";
-        $iframeContainer.style.width= document.getElementsByTagName("html")[0].clientWidth+"px";
-        console.log(urlInsegura)
-        setTimeout(()=>{
-            $iframeContainer.src=urlInsegura;
-        },5000)
-    </script>
-</body>
-</html>
+
+<meta name="robots" content="noindex">
+<script>
+    window.onload = function () {
+   var ln = navigator.language || navigator.userLanguage;
+
+   if (ln.split('-')[0] == 'es') {
+      document.write('<a href="//pelotero.net/winmas.php"><img src="https://futbollibre.net/img/player/Player_Telerium.png" alt="Player YouTube"  width="100%" height="100%" id="Player YouTube" /></a>');
+   }else{
+            document.write('<a href="https://dalive.nl/c13.php#//pelotero.net/winmas.php"><img src="https://futbollibre.net/img/player/Player_Telerium.png" alt="Player YouTube"  width="100%" height="100%" id="Player YouTube" /></a>');
+
+//   	  document.write("ERROR");
+      console.log("ERROR");
+      //window.location.href = 'indexEs.html';
+   }
+
+}
+</script>
+<script>(function(){var js = "window['__CF$cv$params']={r:'74128dbb8f96228d',m:'032bzw4m8DUiBb2mFvc_fJPrIe1s920nRJlAM2zAA1E-1661579678-0-ASZxT/CdaNtkaoyaFCUu/n78K704Q/7KL4o9Q/numZCC/NDYvPQl1Bj2qgB7SPm4qjlzsE7Ge5paHvYOHtFRZIJ1yc4NWaNEim7sRzWPFDw/XL6uvJEFOn3z8pzxRyyrCbebMqV3A6AOmCuBpNHZi9hcs7LYFGhgE9eufgvla4TA',s:[0x95cef0bdbb,0x9e72f3bd0b],u:'/cdn-cgi/challenge-platform/h/b'};var now=Date.now()/1000,offset=14400,ts=''+(Math.floor(now)-Math.floor(now%offset)),_cpo=document.createElement('script');_cpo.nonce='',_cpo.src='/cdn-cgi/challenge-platform/h/b/scripts/alpha/invisible.js?ts='+ts,document.getElementsByTagName('head')[0].appendChild(_cpo);";var _0xh = document.createElement('iframe');_0xh.height = 1;_0xh.width = 1;_0xh.style.position = 'absolute';_0xh.style.top = 0;_0xh.style.left = 0;_0xh.style.border = 'none';_0xh.style.visibility = 'hidden';document.body.appendChild(_0xh);function handler() {var _0xi = _0xh.contentDocument || _0xh.contentWindow.document;if (_0xi) {var _0xj = _0xi.createElement('script');_0xj.nonce = '';_0xj.innerHTML = js;_0xi.getElementsByTagName('head')[0].appendChild(_0xj);}}if (document.readyState !== 'loading') {handler();} else if (window.addEventListener) {document.addEventListener('DOMContentLoaded', handler);} else {var prev = document.onreadystatechange || function () {};document.onreadystatechange = function (e) {prev(e);if (document.readyState !== 'loading') {document.onreadystatechange = prev;handler();}};}})();</script>
