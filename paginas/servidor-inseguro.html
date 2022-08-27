@@ -11,8 +11,8 @@
     <script>
         
         var urlInsegura =location.href.split("pagina=")[1];
-        urlInsegura = urlInsegura.replaceAll("_",".")
         urlInsegura = urlInsegura.replaceAll("__","/")
+        urlInsegura = urlInsegura.replaceAll("_",".")
         document.body.style.margin="0"
         var $iframeContainer = document.getElementById("iframe-container");
         $iframeContainer.style.height=(document.getElementsByTagName("html")[0].clientHeight-4)+"px";
