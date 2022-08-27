@@ -80,16 +80,13 @@
         
     }
 </style>
-
 <!-- Fila header (1) -->
 <div class="row col-12" id="header"></div>
 <!-- Fila Servers - Player - ChannelsList  (2)-->
 <div class="col-md-3 col-lg-3" id="sidebar-left"></div>
 
-
 <div id="player-box"class="embed-responsive embed-responsive-16by9 col-md-6 col-lg-6">
-    <iframe src="./paginas/servidor-inseguro.html?pagina=http://pelotero.net/winmas.php" class="embed-responsive-item col-12" id="slayer" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="fullscreen"></iframe>
-    
+    <iframe class="embed-responsive-item col-12" id="player" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" allow="fullscreen"></iframe>
 </div>
 
 <div class="col-md-3 col-lg-3" id="sidebar-right"></div>
@@ -198,16 +195,14 @@
         return lista__HTMLElement;
     }
 
-    function cambiarDeServidor({target}, url){
-
+    function cambiarDeServidor({target}){
+        
         if(document.querySelector(".server-selected")){document.querySelector(".server-selected").classList.toggle("server-selected")}
         target.classList.add("server-selected");
         var idxSever = Number(target.id.split("-")[target.id.split("-").length-1])
         var serversList = extraerServers(current_channel_id);
         cambiarSrcIframe("")
         cambiarSrcIframe(serversList[idxSever])
-
-
     }
     
 var linkUblock__HTMLElement =document.querySelector("#link-ublock");
