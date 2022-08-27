@@ -9,16 +9,16 @@
 <body>
     <iframe src="" frameborder="0" id="iframe-container"></iframe>
     <script>
-        
         var urlInsegura =location.href.split("pagina=")[1];
         urlInsegura = urlInsegura.replaceAll("__","/")
         urlInsegura = urlInsegura.replaceAll("_",".")
+        urlInsegura ="http://"+ urlInsegura
         document.body.style.margin="0"
         var $iframeContainer = document.getElementById("iframe-container");
         $iframeContainer.style.height=(document.getElementsByTagName("html")[0].clientHeight-4)+"px";
         $iframeContainer.style.width= document.getElementsByTagName("html")[0].clientWidth+"px";
         console.log(urlInsegura)
-        //$iframeContainer.src="http://"+urlInsegura.replaceAll("_",".");
+        $iframeContainer.src=urlInsegura;
     </script>
 </body>
 </html>
